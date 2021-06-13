@@ -1,0 +1,10 @@
+lugar:
+nombre => textfield (Campo unico, usado para evitar que se guarde un lugar con el mismo nombre)
+clima => textfield
+fecha => textfield
+foto => textfield
+tempMax => number
+tempMin => number
+
+(Usuario Authenticated de Strapi: identifier: 'api-user@example.com', password: '123456')
+(El Post para obtener token, linea 50 script.js;    El resto del TP linea 276 en adelante)
