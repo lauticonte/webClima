@@ -18,12 +18,12 @@ newgrp docker
 sudo snap disable docker
 sudo snap enable docker
 ```
-> Donde $USER es su usuario de Linux.
+> Donde `$USER` es su usuario de Linux.
 <hr>
 
 > **Windows**:  
 
-> https://docs.docker.com/docker-for-windows/install/
+`<link>` https://docs.docker.com/docker-for-windows/install/
 
 <hr>
 
@@ -34,12 +34,12 @@ git clone https://github.com/lauticonte/webClima
 <hr>
 
 - **Instalar Strapi, mySQL y el backend.**
-```bash 
+```
 cd webClima
 docker-compose up
 ```
 >Esperar que se instale todo y aparezca en la terminal:
-```bash
+```
 To manage your project, go to the administration panel at:
 strapi | http://localhost:1337/admin
 ```
@@ -74,6 +74,7 @@ Para ello, debemos abrir el *script.js* de la carpeta 'frontend' y reemplazar to
 
  ## Social
 ![Twitter Follow](https://img.shields.io/twitter/follow/lauticonte?style=social)  
- ![GitHub followers](https://img.shields.io/github/followers/lauticonte?style=social)
+![GitHub followers](https://img.shields.io/github/followers/lauticonte?style=social)
 
+ ## End
 
