@@ -1,3 +1,4 @@
+
 # webClima ⛅
 Aplicación web que muestra el clima en las principales ciudades del mundo, las carga a Strapi (CMS que organiza y almacena datos) y dibuja gráficos con la información guardada.
 ## Instalación 
@@ -5,16 +6,16 @@ Aplicación web que muestra el clima en las principales ciudades del mundo, las 
 
 - **Instalar Docker (para Linux)**
 ```
-	sudo apt install snapd
-	sudo snap install docker
+sudo apt install snapd
+sudo snap install docker
 ```
 > Con Docker ya instalado, vamos a hacer que podamos ejecutar los comandos sin necesidad de sudo:
 ```
-	sudo addgroup --system docker
-	sudo adduser $USER docker
-	newgrp docker
-	sudo snap disable docker
-	sudo snap enable docker
+sudo addgroup --system docker
+sudo adduser $USER docker
+newgrp docker
+sudo snap disable docker
+sudo snap enable docker
 ```
 > Donde $USER es su usuario de Linux.
 
@@ -22,25 +23,24 @@ Aplicación web que muestra el clima en las principales ciudades del mundo, las 
 > https://docs.docker.com/docker-for-windows/install/
 - **Clonar el repositorio de webClima**
 ```
-	git clone https://github.com/lauticonte/webClima
-
+git clone https://github.com/lauticonte/webClima
 ```
 - **Instalar Strapi, mySQL y el backend.**
 ```bash 
-	cd webClima
-	docker-compose up
+cd webClima
+docker-compose up
 ```
 >Esperar que se instale todo y aparezca en la terminal:
 ```bash
-	To manage your project, go to the administration panel at:
-	strapi | http://localhost:1337/admin
+To manage your project, go to the administration panel at:
+strapi | http://localhost:1337/admin
 ```
 - **Configurar Strapi**
 >Ingresar a Strapi con localhost si están corriendo Docker en Windows, o con la ip de la VM de Linux si están ejecutando Docker en una maquina virtual.
 
 Ejemplo con ip de VM:
 ```
-	http://192.168.1.96:1337/admin
+http://192.168.1.96:1337/admin
 ```
 >Una vez dentro de Strapi, en la columna PLUGINS, ingreso a '**Content-Types Builder**'.  
 Luego a '**+ Create new Collection type**'.  
