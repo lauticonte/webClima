@@ -6,5 +6,5 @@ foto => textfield
 tempMax => number
 tempMin => number
 
-(Usuario Authenticated de Strapi: identifier: 'api-user@example.com', password: '123456')
+(Usuario Authenticated de Strapi: user: api-user, email: 'api-user@example.com', password: '123456', Confirmed: ON)
 (El Post para obtener token, linea 50 script.js;    El resto del TP linea 276 en adelante)
