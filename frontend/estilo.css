@@ -41,7 +41,7 @@ body {
 	width: auto;
 	/*background: #005aa7;*/
 	background: var(--gradient);
-	height: 80px;
+	height: 75px;
 	align-items: center;
 	border-radius: 0 0 6px 6px;
 	margin: 0 20px 0 20px;
@@ -123,13 +123,16 @@ body {
 	border-radius: 6px;
 	text-align: center;
 	box-shadow: 0 0 10px 0 black;
+	justify-content: center;
+	align-items: center;
 }
 
 
 
 h1 {
-	font-size: 1.5em;
+	font-size: 1.2em;
 	margin: 0.67em 0;
+	font-weight: bold;
 }
 
 #clima {
@@ -165,6 +168,7 @@ h1 {
 .tMax {
 	font-weight: bold;
 	font-size: 6rem;
+	margin-left: -5px;
 }
 
 .foto{
@@ -195,12 +199,18 @@ h1 {
 	box-shadow: 0 0 10px 0 black;
 }
 
-.botonStrapi {
+.btnAzul {
 	color: white;
 	background-color: #005aa7;
 	padding: 10px;
 	border-radius: 6px;
 	cursor: pointer;
+}
+
+#graficosChart{
+	width: 80%;
+	height: 400px;
+	margin: 25px 0px 0px 10%;
 }
 
 
@@ -243,14 +253,14 @@ aside .fas{
 }
 
 
-#buscartweet{
+#btnBuscar{
 	float: left;
 	border: black;
 	height: 25px;
-    width: 20%;
-    border-radius: 0px 6px 6px 0px;
-    background-color: black;
-    cursor: pointer;
+  width: 20%;
+  border-radius: 0px 6px 6px 0px;
+  background-color: black;
+  cursor: pointer;
 }
 
 
@@ -265,10 +275,37 @@ aside .fas{
 	background: var(--gradient);
 	/*background: #005aa7;*/
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 12px 0px;
-	height: 93px;
+	height: 79px;
 	border-radius: 6px 6px 0 0;
 	margin: 0 20px 0 20px;
 	text-align: right;
 	font-size: 18px;
 	padding: 2em;
+}
+
+.btnAccept {
+	color: white;
+	background-color: green;
+	padding: 10px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+
+.labelFecha {
+	color: white;
+	padding: 12px;
+	min-height: 48px;
+	width: auto;
+  border-radius: 6px 0px 0px 6px;
+  background-color: black;
+  cursor: pointer;
+}
+
+.btnFecha {
+	color: white;
+	background-color: #005aa7;
+	padding: 10px;
+	border-radius: 0px 6px 6px 0px;
+	cursor: pointer;
 }
