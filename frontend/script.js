@@ -1,9 +1,8 @@
 var bearer = '';
 var token = '';
 
+$(document).ready(function(){
 
-//VER LA OPCION SELECCIONADA
-$(document).ready(() =>{
     $('#api1').show(); //muestro mediante id
     $('#graf').hide();
     $('#api2').hide();
@@ -23,12 +22,6 @@ $(document).ready(() =>{
         $('#graf').hide();
         $('#api').hide();
     });
-});
-
-
-//API CLIMA
-
-$(document).ready(function(){
 
     $.ajax({
     url: "http://192.168.1.96:1337/auth/local",
@@ -47,7 +40,7 @@ $(document).ready(function(){
         
     },
     error: function(req, status, err) {
-        
+        alert('Debe correr Strapi primero. No olvide cambiar su ip en "script.js".')
     }
     });
 
@@ -58,7 +51,7 @@ $(document).ready(function(){
 
 function clima(clima){
     
-    var html = ' <label for=""><h1>Clima en su ubicación: </h1></label> <br> <fieldset id="buscador"><select name="zona" id="zona"> <option value="">Selecciona una zona...</option><option value="468739" selected>Buenos Aires, Argentina</option> <option value="455819">Brasilia, Brasil</option> <option value="349859">Santiago, Chile</option> <option value="2459115">Nueva York, EEUU</option> <option value="2450022">Miami, EEUU</option> <option value="2514815">Washington DC, EEUU</option><option value="2442047">Los Angeles, EEUU</option><option value="2436704">Las Vegas, EEUU</option><option value="2367105">Boston, EEUU</option><option value="116545">Mexico city, Mexico</option><option value="44418">Londres, Inglaterra</option><option value="766273">Madrid, Espana</option><option value="721943">Roma, Italia</option><option value="615702">Paris, Francia</option><option value="638242">Berlin, Alemania</option></select><button id="btnBuscar" onclick="listarClima()" ><i class="fas fa-search"></i></button></fieldset>';
+    var html = ' <label for=""><h1>Clima en su ubicación: </h1></label> <br> <fieldset id="buscador"><select name="zona" id="zonaElegida"><option value="">Seleccione una zona...</option><option value="468739" selected>Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" onclick="listarClima()" ><i class="fas fa-search"></i></button></fieldset>';
 
     $("#clima").html(html);
     listarClima();
@@ -66,11 +59,11 @@ function clima(clima){
 
 
 function listarClima(){
-    var idZona = document.getElementById("zona").value;
+    var idZona = $("#zonaElegida").val();
     console.log(idZona);
 
     $.ajax({
-        url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/"+idZona,
+        url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/" + idZona,
         method: "GET",
         dataType: "json",
         success: function(response){
@@ -80,17 +73,13 @@ function listarClima(){
             var hora = dia[1].split(".");
             var img = '';
             switch(response.consolidated_weather[0].weather_state_abbr){
-                case 'hc':
-                    img = 'https://www.metaweather.com/static/img/weather/hc.svg';
-                    clima = 'Muy Nublado';
-                    break;
                 case 'sn':
                     img = 'https://www.metaweather.com/static/img/weather/sn.svg';
                     clima = 'Nieve';
                     break;
                 case 'sl':
                     img = 'https://www.metaweather.com/static/img/weather/sl.svg';
-                    clima = 'AguaNieve';
+                    clima = 'Agua Nieve';
                     break;
                 case 'h':
                     img = 'https://www.metaweather.com/static/img/weather/h.svg';
@@ -104,13 +93,17 @@ function listarClima(){
                     img = 'https://www.metaweather.com/static/img/weather/hr.svg';
                     clima = 'Fuerte Lluvia';
                     break;
+                case 'lr':
+                    img = 'https://www.metaweather.com/static/img/weather/lr.svg';
+                    clima = 'Debil Lluvia';
+                    break;
                 case 's':
                     img = 'https://www.metaweather.com/static/img/weather/s.svg';
                     clima = 'Llovizna';
                     break;
-                case 'lr':
-                    img = 'https://www.metaweather.com/static/img/weather/lr.svg';
-                    clima = 'Debil Lluvia';
+                case 'hc':
+                    img = 'https://www.metaweather.com/static/img/weather/hc.svg';
+                    clima = 'Muy Nublado';
                     break;
                 case 'lc':
                     img = 'https://www.metaweather.com/static/img/weather/lc.svg';
@@ -121,11 +114,11 @@ function listarClima(){
                     clima = 'Despejado';
                     break;
                 default:
-                    clima = 'Incognita';
+                    clima = 'Unknown';
                     break;
             }
 
-                var html = '<label for=""><h1>Clima en su ubicación: </h1></label> <br> <fieldset id="buscador"><select name="zona" id="zona"> <option value="">Selecciona una zona...</option><option value="468739">Buenos Aires, Argentina</option> <option value="455819">Brasilia, Brasil</option> <option value="349859">Santiago, Chile</option> <option value="2459115">Nueva York, EEUU</option> <option value="2450022">Miami, EEUU</option> <option value="2514815">Washington DC, EEUU</option><option value="2442047">Los Angeles, EEUU</option><option value="2436704">Las Vegas, EEUU</option><option value="2367105">Boston, EEUU</option><option value="116545">Mexico city, Mexico</option><option value="44418">Londres, Inglaterra</option><option value="766273">Madrid, Espana</option><option value="721943">Roma, Italia</option><option value="615702">Paris, Francia</option><option value="638242">Berlin, Alemania</option></select><button id="btnBuscar" onclick="listarClima()" ><i class="fas fa-search"></i></button></fieldset> <br><br><div class="card"> <div class="relleno"> Tiempo en ' + response.parent.title +', '+ response.title + '<br><h4 class="hora"> A las ' + hora[0] + '</h4><div class="medio"> <h2 class="tMax">'+ Math.round(response.consolidated_weather[0].max_temp) +'°</h2> <img class="foto" src="'+img+'"> </div> <h2 class="cli">'+clima+'</h2> <br> <h4 class="hum">'+ response.consolidated_weather[0].humidity+'% de humedad</h4> </div> </div>';
+                var html = '<label for=""><h1>Clima en su ubicación: </h1></label> <br> <fieldset id="buscador"><select name="zona" id="zonaElegida"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" onclick="listarClima()" ><i class="fas fa-search"></i></button></fieldset> <br><br><div class="card"> <div class="relleno"> Tiempo en ' + response.title +', '+ response.parent.title + '<br><h4 class="hora"> A las ' + hora[0] + '</h4><div class="medio"> <h2 class="tMax">'+ Math.round(response.consolidated_weather[0].max_temp) +'°</h2> <img class="foto" src="'+img+'"> </div> <h2 class="cli">'+clima+'</h2> <br> <h4 class="hum">'+ response.consolidated_weather[0].humidity+'% de humedad</h4> </div> </div>';
 
                 $("#clima").html(html);
         },
@@ -139,29 +132,25 @@ function listarClima(){
 //STRAPI
 
 function strapi(strapi){
-        var html = '<label for=""><h1>Agrega un lugar a Strapi:</h1><br></label><br><label class="labelFecha">Fecha: </label><select id="fechaSelect" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="choiceStrapi"> <option value="">Selecciona una zona...</option><option value="468739">Buenos Aires, Argentina</option> <option value="455819">Brasilia, Brasil</option> <option value="349859">Santiago, Chile</option> <option value="2459115">Nueva York, EEUU</option> <option value="2450022">Miami, EEUU</option> <option value="2514815">Washington DC, EEUU</option><option value="2442047">Los Angeles, EEUU</option><option value="2436704">Las Vegas, EEUU</option><option value="2367105">Boston, EEUU</option><option value="116545">Mexico city, Mexico</option><option value="44418">Londres, Inglaterra</option><option value="766273">Madrid, Espana</option><option value="721943">Roma, Italia</option><option value="615702">Paris, Francia</option><option value="638242">Berlin, Alemania</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset><br><br><br><button class="btnAzul" onclick="verCargados()">Ver lugares cargados</button>';
-        llenarSelectFecha();
+        var html = '<label for=""><h1>Agregue un lugar a Strapi:</h1><br></label><br><label class="labelFecha">Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset><br><br><br><button class="btnAzul" onclick="verCargados()">Ver cargados en Strapi</button>';
+        llenarFecha();
         $("#strapi").html(html);
 }
 
-
-function llenarSelectFecha(){
+function llenarFecha(){
     $.ajax({
         //468739 es Argentina
         url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/468739",
         method: "GET",
         dataType: "json",
         success: function(response){
-            //console.log(response);
             var dia = [];
             for (var i = 0; i < 6; i++) {
                 dia.push(response.consolidated_weather[i].applicable_date);
             }
-            //console.log(dia);
-            var selector = document.getElementById("fechaSelect");
+            var selector = $("#selectFecha")[0];
             for (i in dia) {
                 selector.options[i] = new Option(dia[i],dia[i]);
-                //console.log(selector.options[i].value);
             };
         },
         error: function(req, status, err){
@@ -180,15 +169,14 @@ function cargarClima(res, dia, clima, img, tempMax, tempMin){
         },
         data: {
             nombre: res.title+'  ('+dia+')',
-            tempMax: Math.round(tempMax),
-            tempMin: Math.round(tempMin),
             fecha: dia,
             clima: clima,
-            foto: img
+            foto: img,
+            tempMax: Math.round(tempMax),
+            tempMin: Math.round(tempMin)
         },
         dataType: "json",
         success: function(response) {
-            //console.log(response);
         },
         error: function(req, status, err) {
             console.log(req, status, err);
@@ -198,33 +186,29 @@ function cargarClima(res, dia, clima, img, tempMax, tempMin){
 
 
 function obtenerLugar(){
-    var idZona = document.getElementById("choiceStrapi").value;
-    var dia = document.getElementById("fechaSelect").value;
+    var idZona = $("#zonaStrapi").val();
+    var dia = $("#selectFecha").val();
+    console.log(idZona);
 
     $.ajax({
-        url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/"+idZona,
+        url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/" + idZona,
         method: "GET",
         dataType: "json",
         success: function(response){
-            //console.log(response);
             var clima = '';
             var img = '';
             var tempMax = 0;
-            var tempMax = 0;
+            var tempMin = 0;
             for (i in response.consolidated_weather){
                 if (response.consolidated_weather[i].applicable_date == dia){
                     switch(response.consolidated_weather[i].weather_state_abbr){
-                    case 'hc':
-                        img = 'https://www.metaweather.com/static/img/weather/hc.svg';
-                        clima = 'Muy Nublado';
-                        break;
                     case 'sn':
                         img = 'https://www.metaweather.com/static/img/weather/sn.svg';
                         clima = 'Nieve';
                         break;
                     case 'sl':
                         img = 'https://www.metaweather.com/static/img/weather/sl.svg';
-                        clima = 'AguaNieve';
+                        clima = 'Agua Nieve';
                         break;
                     case 'h':
                         img = 'https://www.metaweather.com/static/img/weather/h.svg';
@@ -238,13 +222,17 @@ function obtenerLugar(){
                         img = 'https://www.metaweather.com/static/img/weather/hr.svg';
                         clima = 'Fuerte Lluvia';
                         break;
+                    case 'lr':
+                        img = 'https://www.metaweather.com/static/img/weather/lr.svg';
+                        clima = 'Debil Lluvia';
+                        break;
                     case 's':
                         img = 'https://www.metaweather.com/static/img/weather/s.svg';
                         clima = 'Llovizna';
                         break;
-                    case 'lr':
-                        img = 'https://www.metaweather.com/static/img/weather/lr.svg';
-                        clima = 'Debil Lluvia';
+                    case 'hc':
+                        img = 'https://www.metaweather.com/static/img/weather/hc.svg';
+                        clima = 'Muy Nublado';
                         break;
                     case 'lc':
                         img = 'https://www.metaweather.com/static/img/weather/lc.svg';
@@ -255,29 +243,35 @@ function obtenerLugar(){
                         clima = 'Despejado';
                         break;
                     default:
-                        clima = 'Incognita';
+                        clima = 'Unknown';
                         break;
                     }
                     tempMax = response.consolidated_weather[i].max_temp;
                     tempMin = response.consolidated_weather[i].min_temp;
                 }
             }
-                //console.log('Datos del lugar a cargar: '+tempMin+', '+tempMax+', '+dia+', '+img+', '+clima+', '+response.title);
+
                 cargarClima(response, dia, clima, img, tempMax, tempMin);
-                var html = 'Lugar cargado &#9989 <br><br> <button class="btnAzul" onclick="verCargados()">Ver lugares cargados</button> <br><br> <label for="">Agrega otro: <br></label><br><label>Fecha: </label><select id="fechaSelect" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="choiceStrapi"> <option value="">Selecciona una zona...</option><option value="468739">Buenos Aires, Argentina</option> <option value="455819">Brasilia, Brasil</option> <option value="349859">Santiago, Chile</option> <option value="2459115">Nueva York, EEUU</option> <option value="2450022">Miami, EEUU</option> <option value="2514815">Washington DC, EEUU</option><option value="2442047">Los Angeles, EEUU</option><option value="2436704">Las Vegas, EEUU</option><option value="2367105">Boston, EEUU</option><option value="116545">Mexico city, Mexico</option><option value="44418">Londres, Inglaterra</option><option value="766273">Madrid, Espana</option><option value="721943">Roma, Italia</option><option value="615702">Paris, Francia</option><option value="638242">Berlin, Alemania</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset>';
-                llenarSelectFecha();
+                var html = 'Lugar cargado &#9989 <br><br> <button class="btnFecha" onclick="verCargados()">Ver cargados en Strapi</button> <br><br> <label for="">Agregue otro: <br></label><br><label class="labelFecha">Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset>';
+                llenarFecha();
                 $("#strapi").html(html);
 
         },
         error: function(req, status, err){
             console.log(req, status, err);
-            var html = 'No se ha podido cargar el lugar seleccionado <br><br><br><button class="btnAzul" onclick="verCargados()">Ver lugares cargados</button> <br><br> <label for="">Agrega otro!</label> <br><label>Fecha: </label><select id="fechaSelect" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="choiceStrapi"> <option value="">Selecciona una zona...</option><option value="468739">Buenos Aires, Argentina</option> <option value="455819">Brasilia, Brasil</option> <option value="349859">Santiago, Chile</option> <option value="2459115">Nueva York, EEUU</option> <option value="2450022">Miami, EEUU</option> <option value="2514815">Washington DC, EEUU</option><option value="2442047">Los Angeles, EEUU</option><option value="2436704">Las Vegas, EEUU</option><option value="2367105">Boston, EEUU</option><option value="116545">Mexico city, Mexico</option><option value="44418">Londres, Inglaterra</option><option value="766273">Madrid, Espana</option><option value="721943">Roma, Italia</option><option value="615702">Paris, Francia</option><option value="638242">Berlin, Alemania</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset>';
-            llenarSelectFecha();
+            var html = 'No se ha podido cargar el lugar seleccionado <br><br><br><button class="btnAzul" onclick="verCargados()">Ver cargados en Strapi</button> <br><br> <label for="">Agregue otro!</label> <br><label>Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset>';
+            llenarFecha();
             $("#strapi").html(html);
         }
     });
 }
 
+
+function verCargados(){
+    var html = '<label for="">Lugares cargados en Strapi:</label> <br> <fieldset id="buscador"><select name="zona" id="datosStrapi"> </select><button class="tipoBlanca" id="btnBuscar" onclick="eliminarStrapi()" >Borrar</button></fieldset> <br><br> <button class="btnAzul" onclick="strapi()">Volver</button>';
+    getLugares();
+    $("#strapi").html(html);
+}
 
 function getLugares(){
     $.ajax({
@@ -288,7 +282,6 @@ function getLugares(){
         },
         dataType: "json",
         success: function(response) {
-            //console.log(response);
             
             response.sort(function (a,b){
                 if (b.nombre > a.nombre) {
@@ -300,7 +293,7 @@ function getLugares(){
                 return 0;
             });
 
-            var selector = document.getElementById("datosStrapi");
+            var selector = ($("#datosStrapi")[0]);
 
             for (i in response) {
                 selector.options[i] = new Option(response[i].nombre,response[i].nombre);
@@ -315,12 +308,6 @@ function getLugares(){
 }
 
 
-function verCargados(){
-    var html = '<label for="">Lugares cargados en Strapi:</label> <br> <fieldset id="buscador"><select name="zona" id="datosStrapi"> </select><button class="tipoBlanca" id="btnBuscar" onclick="eliminarStrapi()" >Borrar</button></fieldset> <br><br> <button class="btnAzul" onclick="strapi()">Agregar otro</button>';
-    getLugares();
-    $("#strapi").html(html);
-}
-
 function eliminarStrapi(){
     $.ajax({
         url: "http://192.168.1.96:1337/lugars",
@@ -330,9 +317,8 @@ function eliminarStrapi(){
         },
         dataType: "json",
         success: function(response) {
-            //console.log(response);
 
-            var nom = document.getElementById("datosStrapi").value;
+            var nom = $("#datosStrapi").val();
 
             for (i in response){
                 if (response[i].nombre == nom){
@@ -358,7 +344,7 @@ function eliminarLugares(id){
         },
         dataType: "json",
         success: function(response) {
-            console.log("Borrado id: "+id);
+            console.log("Lugar borrado: "+id);
             verCargados();
         },
         error: function(req, status, err) {
@@ -367,20 +353,20 @@ function eliminarLugares(id){
     });
 }
 
+
+
 //GRAFICOS
 function graficos(){
-    google.charts.load('current', {'packages':['bar']});
-    var html =  '<div class="divBotonesGrafico"><div class="botonStrapitodos"><button id="compTempTodas" class="btnAzul" onclick="graficoTodos()">Comparar todas las Temperaturas</button></div><br> <div class="divBotonesGrafico"><button id="compTempT" class="btnAzul" onclick="graficoBs()">Comparar temperaturas Buenos Aires</button><br> <div id="dibujarGraficos"><br><br><button id="dibujarGrafico" class="btnAzul" onclick="dibujar(data, options)">Dibujar</button></div>';
-    $("#frases").html(html);
+    google.charts.load('current', {'packages':['bar', 'corechart']});
+    var html =  '<div class="divBotonesGrafico"><div class="botonStrapitodos"><button id="compTempTodas" class="btnAzul" onclick="graficoTodos()">Comparar temperaturas: Latinoamerica</button></div><br> <div class="divBotonesGrafico"><button id="compTempT" class="btnAzul" onclick="graficoBs()">Comparar temperaturas: Buenos Aires</button><br> <div id="dibujarGraficos"><br><br><button id="dibujarGrafico" class="btnAzul" onclick="dibujar(data, options)">Dibujar</button></div>';
+    $("#graficos").html(html);
 
 }
 
 var data = [];
 var options = '';
 
-
 function graficoTodos(){
-    google.charts.load('current', {'packages':['bar']});
     google.charts.setOnLoadCallback(dibujar);
     $.ajax({
         url: "http://192.168.1.96:1337/lugars",
@@ -401,14 +387,18 @@ function graficoTodos(){
 
             options = {
                 chart: {
-                    title: 'Comparacion de Temperaturas (TODAS)',
+                    title: 'Comparacion de Temperaturas de Latinoamerica',
                     subtitle: 'Maxima y Minima de cada lugar cargado',
                 },
                 bars: 'horizontal'
             };
 
-            var html = '<div class="divBotonesGrafico"><div class="botonStrapitodos"><button id="compTempTodas" class="btnAzul" onclick="graficoTodos()">Comparar todas las Temperaturas</button></div><br> <div class="divBotonesGrafico"><button id="compTempT" class="btnAzul" onclick="graficoBs()">Comparar temperaturas Buenos Aires</button><br> <div id="dibujarGraficos"><br><br><button id="dibujarGrafico" class="btnAccept" onclick="dibujar(data, options)">Dibujar</button></div>';
-            $("#frases").html(html);
+            
+
+            var html = '<div class="divBotonesGrafico"><div class="botonStrapitodos"><button id="compTempTodas" class="btnAzul" onclick="graficoTodos()">Comparar temperaturas: Latinoamerica</button></div><br> <div class="divBotonesGrafico"><button id="compTempT" class="btnAzul" onclick="graficoBs()">Comparar temperaturas: Buenos Aires</button><br> <div id="dibujarGraficos"><br><br><button id="dibujarGrafico" class="btnAccept" onclick="dibujar(data, options)">Dibujar</button></div>';
+            $("#graficos").html(html);
+
+
 
         },
         error: function(req, status, err) {
@@ -419,7 +409,6 @@ function graficoTodos(){
 
 
 function graficoBs(){
-    google.charts.load('current', {'packages':['bar']});
     google.charts.setOnLoadCallback(dibujarArea);
     $.ajax({
         url: "http://192.168.1.96:1337/lugars",
@@ -429,7 +418,7 @@ function graficoBs(){
         },
         dataType: "json",
         success: function(response) {
-            //Ordeno por nombre (por ende por fecha)
+            //Ordeno por fecha.
             response.sort(function (a,b){
                 if (b.nombre > a.nombre) {
                     return -1;
@@ -445,7 +434,6 @@ function graficoBs(){
 
             for (i in response){
                 if (response[i].nombre.includes('Buenos Aires')){
-                    console.log(response[i].nombre.includes('Buenos Aires'));
                     arrayData.push([response[i].nombre, response[i].tempMax, response[i].tempMin]);
                 }
             }
@@ -453,15 +441,13 @@ function graficoBs(){
             data = google.visualization.arrayToDataTable(arrayData);
         
             options = {
-                chart: {
-                    title: 'Comparacion de Temperaturas historicas (Buenos Aires)',
-                    subtitle: 'Maxima y Minima de cada dia cargado',
-                }
+              title: 'Comparacion de Temperaturas de Buenos Aires',
+              hAxis: {title: 'Lugar (AAAA-MM-DD)',  titleTextStyle: {color: '#333'}},
+              vAxis: {title: 'Temperatura'}
             };
 
-            var html = '<div class="divBotonesGrafico"><div class="botonStrapitodos"><button id="compTempTodas" class="btnAzul" onclick="graficoTodos()">Comparar todas las Temperaturas</button></div><br> <div class="divBotonesGrafico"><button id="compTempT" class="btnAzul" onclick="graficoBs()">Comparar temperaturas Buenos Aires</button><br> <div id="dibujarGraficos"><br><br><button id="dibujarGrafico" class="btnAccept" onclick="dibujarArea(data, options)">Dibujar</button></div>';
-            getLugares();
-            $("#frases").html(html);
+            var html = '<div class="divBotonesGrafico"><div class="botonStrapitodos"><button id="compTempTodas" class="btnAzul" onclick="graficoTodos()">Comparar temperaturas: Latinoamerica</button></div><br> <div class="divBotonesGrafico"><button id="compTempT" class="btnAzul" onclick="graficoBs()">Comparar temperaturas: Buenos Aires</button><br> <div id="dibujarGraficos"><br><br><button id="dibujarGrafico" class="btnAccept" onclick="dibujarArea(data, options)">Dibujar</button></div>';
+            $("#graficos").html(html);
 
         },
         error: function(req, status, err) {
@@ -471,9 +457,8 @@ function graficoBs(){
 }
 
 
-
 function error(){
-    alert("No ha seleccionado ningun grafico.");
+    alert("No ha seleccionado ningun grafico");
 }
 
 
@@ -481,12 +466,11 @@ function error(){
 
 function dibujar(data, options){
     google.charts.load('current', {'packages':['bar']});
-    console.log(data);
-    var html = '<button class="btnAzul" onclick="graficos()">Volver</button> <br> <div id="graficosChart"></div>'
-    $("#frases").html(html);
 
+    var html = '<div id="graficosChart"> <br><br> </div><button class="btnAzul" onclick="graficos()">Volver</button> '
+    $("#graficos").html(html);
     
-    var chart = new google.charts.Bar(document.getElementById('graficosChart'));
+    var chart = new google.charts.Bar($("#graficosChart")[0]);
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 
@@ -495,14 +479,14 @@ function dibujar(data, options){
 
 function dibujarArea(data, options){
     google.charts.load('current', {'packages':['corechart']});
-    console.log(data);
-    var html = '<button class="btnAzul" onclick="graficos()">Volver</button> <br> <div id="graficosChart"></div>'
-    $("#frases").html(html);
 
-    
-    var chart = new google.visualization.AreaChart(document.getElementById('graficosChart'));
+    var html = '<div id="graficosChart"></div> <br><br>  <button class="btnAzul" onclick="graficos()">Volver</button>'
+    $("#graficos").html(html)
+
+    var chart = new google.visualization.AreaChart($("#graficosChart")[0]);
 
     chart.draw(data, options);
+
 
 }
 

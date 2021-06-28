@@ -235,7 +235,7 @@ aside .fas{
 }
 
 
-#zona, #choiceStrapi, #datosStrapi{
+#zonaElegida, #zonaStrapi, #datosStrapi{
 	color: white;
 	float: left;
 	border: black;
@@ -261,6 +261,12 @@ aside .fas{
   border-radius: 0px 6px 6px 0px;
   background-color: black;
   cursor: pointer;
+  
+}
+
+#btnBuscar:hover {
+	background: var(--gradient);
+	transition: all .5s linear;
 }
 
 
