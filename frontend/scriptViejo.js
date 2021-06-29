@@ -67,72 +67,26 @@ function listarClima(){
         method: "GET",
         dataType: "json",
         success: function(response){
+            console.log(response);
             var clima = '';
             var dia = response.time.split("T");
             var hora = dia[1].split(".");
             var img = '';
-            var tipo = response.consolidated_weather[0].weather_state_abbr;
-
-            if (tipo == 'lc'){
-            img = 'https://www.metaweather.com/static/img/weather/lc.svg';
-            clima = 'Poco Nublado';
+            if (response.consolidated_weather[0].weather_state_abbr == 'lc'){
+                img = 'https://www.metaweather.com/static/img/weather/lc.svg';
+                clima = 'Poco Nublado';
             }
 
-            else if (tipo == 'c') {
-            img = 'https://www.metaweather.com/static/img/weather/c.svg';
-            clima = 'Despejado';
+            else if (response.consolidated_weather[0].weather_state_abbr == 'c') {
+                img = 'https://www.metaweather.com/static/img/weather/c.svg';
+                clima = 'Despejado';
+
             }
-
-            else if (tipo == 'sn') {
-            img = 'https://www.metaweather.com/static/img/weather/sn.svg';
-            clima = 'Nieve';
-            }
-
-            else if (tipo == 'sl') {
-            img = 'https://www.metaweather.com/static/img/weather/sl.svg';
-            clima = 'Agua Nieve';
-            }
-
-            else if (tipo == 'h') {
-            img = 'https://www.metaweather.com/static/img/weather/h.svg';
-            clima = 'Granizo';
-            }
-
-            else if (tipo == 't') {
-            img = 'https://www.metaweather.com/static/img/weather/t.svg';
-            clima = 'Tormenta';
-            }
-
-            else if (tipo == 'hr') {
-            img = 'https://www.metaweather.com/static/img/weather/hr.svg';
-            clima = 'Fuerte Lluvia';
-                    }
-
-            else if (tipo == 'lr') {
-            img = 'https://www.metaweather.com/static/img/weather/lr.svg';
-            clima = 'Leve Lluvia';
-            }
-
-            else if (tipo == 's') {
-            img = 'https://www.metaweather.com/static/img/weather/s.svg';
-            clima = 'Llovizna';
-            }
-
-            else if (tipo == 'sn') {
-            img = 'https://www.metaweather.com/static/img/weather/sn.svg';
-            clima = 'Nieve';
-            }
-
-            else if (tipo == 'hc') {
-            img = 'https://www.metaweather.com/static/img/weather/hc.svg';
-            clima = 'Muy Nublado';
-            }
-
             else {
-                img = ' ';
-                clima = 'Desconocido';
+                img = 'https://www.metaweather.com/static/img/weather/sn.svg';
+                clima = 'Le erraste papu';
 
-            };
+            }
 
                 var html = '<label for=""><h1>Clima en su ubicación: </h1></label> <br> <fieldset id="buscador"><select name="zona" id="zonaElegida"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" onclick="listarClima()" ><i class="fas fa-search"></i></button></fieldset> <br><br><div class="card"> <div class="relleno"> Tiempo en ' + response.title +', '+ response.parent.title + '<br><h4 class="hora"> A las ' + hora[0] + '</h4><div class="medio"> <h2 class="tMax">'+ Math.round(response.consolidated_weather[0].max_temp) +'°</h2> <img class="foto" src="'+img+'"> </div> <h2 class="cli">'+clima+'</h2> <br> <h4 class="hum">'+ response.consolidated_weather[0].humidity+'% de humedad</h4> </div> </div>';
 
@@ -204,6 +158,7 @@ function cargarClima(res, dia, clima, img, tempMax, tempMin){
 function obtenerLugar(){
     var idZona = $("#zonaStrapi").val();
     var dia = $("#selectFecha").val();
+    console.log(idZona);
 
     $.ajax({
         url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/" + idZona,
@@ -216,68 +171,51 @@ function obtenerLugar(){
             var tempMin = 0;
             for (i in response.consolidated_weather){
                 if (response.consolidated_weather[i].applicable_date == dia){
-                    var tipo = response.consolidated_weather[i].weather_state_abbr;
-
-                    if (tipo == 'lc'){
-                    img = 'https://www.metaweather.com/static/img/weather/lc.svg';
-                    clima = 'Poco Nublado';
+                    switch(response.consolidated_weather[i].weather_state_abbr){
+                    case 'sn':
+                        img = 'https://www.metaweather.com/static/img/weather/sn.svg';
+                        clima = 'Nieve';
+                        break;
+                    case 'sl':
+                        img = 'https://www.metaweather.com/static/img/weather/sl.svg';
+                        clima = 'Agua Nieve';
+                        break;
+                    case 'h':
+                        img = 'https://www.metaweather.com/static/img/weather/h.svg';
+                        clima = 'Granizo';
+                        break;
+                    case 't':
+                        img = 'https://www.metaweather.com/static/img/weather/t.svg';
+                        clima = 'Tormenta';
+                        break;
+                    case 'hr':
+                        img = 'https://www.metaweather.com/static/img/weather/hr.svg';
+                        clima = 'Fuerte Lluvia';
+                        break;
+                    case 'lr':
+                        img = 'https://www.metaweather.com/static/img/weather/lr.svg';
+                        clima = 'Debil Lluvia';
+                        break;
+                    case 's':
+                        img = 'https://www.metaweather.com/static/img/weather/s.svg';
+                        clima = 'Llovizna';
+                        break;
+                    case 'hc':
+                        img = 'https://www.metaweather.com/static/img/weather/hc.svg';
+                        clima = 'Muy Nublado';
+                        break;
+                    case 'lc':
+                        img = 'https://www.metaweather.com/static/img/weather/lc.svg';
+                        clima = 'Poco Nublado';
+                        break;
+                    case 'c':
+                        img = 'https://www.metaweather.com/static/img/weather/c.svg';
+                        clima = 'Despejado';
+                        break;
+                    default:
+                        clima = 'Unknown';
+                        break;
                     }
-
-                    else if (tipo == 'c') {
-                    img = 'https://www.metaweather.com/static/img/weather/c.svg';
-                    clima = 'Despejado';
-                    }
-
-                    else if (tipo == 'sn') {
-                    img = 'https://www.metaweather.com/static/img/weather/sn.svg';
-                    clima = 'Nieve';
-                    }
-
-                    else if (tipo == 'sl') {
-                    img = 'https://www.metaweather.com/static/img/weather/sl.svg';
-                    clima = 'Agua Nieve';
-                    }
-
-                    else if (tipo == 'h') {
-                    img = 'https://www.metaweather.com/static/img/weather/h.svg';
-                    clima = 'Granizo';
-                    }
-
-                    else if (tipo == 't') {
-                    img = 'https://www.metaweather.com/static/img/weather/t.svg';
-                    clima = 'Tormenta';
-                    }
-
-                    else if (tipo == 'hr') {
-                    img = 'https://www.metaweather.com/static/img/weather/hr.svg';
-                    clima = 'Fuerte Lluvia';
-                    }
-
-                    else if (tipo == 'lr') {
-                    img = 'https://www.metaweather.com/static/img/weather/lr.svg';
-                    clima = 'Leve Lluvia';
-                    }
-
-                    else if (tipo == 's') {
-                    img = 'https://www.metaweather.com/static/img/weather/s.svg';
-                    clima = 'Llovizna';
-                    }
-
-                    else if (tipo == 'sn') {
-                    img = 'https://www.metaweather.com/static/img/weather/sn.svg';
-                    clima = 'Nieve';
-                    }
-
-                    else if (tipo == 'hc') {
-                    img = 'https://www.metaweather.com/static/img/weather/hc.svg';
-                    clima = 'Muy Nublado';
-                    }
-
-                    else {
-                        clima = 'Desconocido';
-
-                    };
-
                     tempMax = response.consolidated_weather[i].max_temp;
                     tempMin = response.consolidated_weather[i].min_temp;
                 }
