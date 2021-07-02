@@ -60,7 +60,6 @@ function clima(clima){
 
 function listarClima(){
     var idZona = $("#zonaElegida").val();
-    console.log(idZona);
 
     $.ajax({
         url: "https://fierce-lake-96143.herokuapp.com/https://www.metaweather.com/api/location/" + idZona,
@@ -148,7 +147,7 @@ function listarClima(){
 //STRAPI
 
 function strapi(strapi){
-        var html = '<label for=""><h1>Agregue un lugar a Strapi:</h1><br></label><br><label class="labelFecha">Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset><br><br><br><button class="btnAzul" onclick="verCargados()">Ver cargados en Strapi</button>';
+        var html = '<label for=""><h1>Agregue un lugar a Strapi:</h1><br></label><br><label class="labelFecha">Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="guardarLugar()" >Cargar</button></fieldset><br><br><br><button class="btnAzul" onclick="verCargados()">Ver cargados en Strapi</button>';
         llenarFecha();
         $("#strapi").html(html);
 }
@@ -201,7 +200,7 @@ function cargarClima(res, dia, clima, img, tempMax, tempMin){
 }
 
 
-function obtenerLugar(){
+function guardarLugar(){
     var idZona = $("#zonaStrapi").val();
     var dia = $("#selectFecha").val();
 
@@ -284,14 +283,14 @@ function obtenerLugar(){
             }
 
                 cargarClima(response, dia, clima, img, tempMax, tempMin);
-                var html = 'Lugar cargado &#9989 <br><br> <button class="btnFecha" onclick="verCargados()">Ver cargados en Strapi</button> <br><br> <label for="">Agregue otro: <br></label><br><label class="labelFecha">Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset>';
+                var html = 'Lugar cargado &#9989 <br><br> <button class="btnFecha" onclick="verCargados()">Ver cargados en Strapi</button> <br><br> <label for="">Agregue otro: <br></label><br><label class="labelFecha">Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="guardarLugar()" >Cargar</button></fieldset>';
                 llenarFecha();
                 $("#strapi").html(html);
 
         },
         error: function(req, status, err){
             console.log(req, status, err);
-            var html = 'No se ha podido cargar el lugar seleccionado <br><br><br><button class="btnAzul" onclick="verCargados()">Ver cargados en Strapi</button> <br><br> <label for="">Agregue otro!</label> <br><label>Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="obtenerLugar()" >Cargar</button></fieldset>';
+            var html = 'No se ha podido cargar el lugar seleccionado <br><br><br><button class="btnAzul" onclick="verCargados()">Ver cargados en Strapi</button> <br><br> <label for="">Agregue otro!</label> <br><label>Fecha: </label><select id="selectFecha" class="btnFecha"></select><br> <fieldset id="buscador"><select name="zona" id="zonaStrapi"><option value="">Seleccione una zona...</option><option value="468739">Buenos Aires, Argentina</option><option value="455825">Rio de Janeiro, Brasil</option>  <option value="349859">Santiago, Chile</option>  <option value="368148">Bogotá, Colombia</option> <option value="116545">Ciudad de México, México</option> <option value="418440">Lima, Perú</option><option value="395269">Caracas, Venezuela</option></select><button id="btnBuscar" class="tipoBlanca" onclick="guardarLugar()" >Cargar</button></fieldset>';
             llenarFecha();
             $("#strapi").html(html);
         }
@@ -300,12 +299,12 @@ function obtenerLugar(){
 
 
 function verCargados(){
-    var html = '<label for="">Lugares cargados en Strapi:</label> <br> <fieldset id="buscador"><select name="zona" id="datosStrapi"> </select><button class="tipoBlanca" id="btnBuscar" onclick="eliminarStrapi()" >Borrar</button></fieldset> <br><br> <button class="btnAzul" onclick="strapi()">Volver</button>';
-    getLugares();
+    var html = '<label for="">Lugares cargados en Strapi:</label> <br> <fieldset id="buscador"><select name="zona" id="datosStrapi"> </select><button class="tipoBlanca" id="btnBuscar" onclick="deleteStrapi()" >Borrar</button></fieldset> <br><br> <button class="btnAzul" onclick="strapi()">Volver</button>';
+    getStrapi();
     $("#strapi").html(html);
 }
 
-function getLugares(){
+function getStrapi(){
     $.ajax({
         url: "http://192.168.1.96:1337/lugars",
         method: "GET",
@@ -340,7 +339,7 @@ function getLugares(){
 }
 
 
-function eliminarStrapi(){
+function deleteStrapi(){
     $.ajax({
         url: "http://192.168.1.96:1337/lugars",
         method: "GET",
@@ -358,7 +357,7 @@ function eliminarStrapi(){
                 }
             }
 
-            eliminarLugares(id);
+            deleteLugar(id);
 
         },
         error: function(req, status, err) {
@@ -367,7 +366,7 @@ function eliminarStrapi(){
     });
 }
 
-function eliminarLugares(id){
+function deleteLugar(id){
     $.ajax({
         url: "http://192.168.1.96:1337/lugars/"+id,
         method: "DELETE",
@@ -376,7 +375,7 @@ function eliminarLugares(id){
         },
         dataType: "json",
         success: function(response) {
-            console.log("Lugar borrado: "+id);
+            alert("Lugar borrado: "+id);
             verCargados();
         },
         error: function(req, status, err) {
